@@ -20,15 +20,15 @@ export default function App(): JSX.Element {
         }}
       >
         <main>
-          <div style={{display: 'flex'}}>
             <BrowserRouter>
+              <div style={{display: 'flex'}}>
               <Drawer/>
               <Routes>
                 <Route path={"/"} element={<AuctionDisplay/>}/>
                 <Route path={"/selection"} element={<SelectWinner/>}/>
               </Routes>
+              </div>
             </BrowserRouter>
-          </div>
         </main>
       </Box>
     </ThemeProvider>

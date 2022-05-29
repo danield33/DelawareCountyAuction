@@ -1,9 +1,9 @@
-import React from "react";
-import { Drawer as MUIDrawer, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
-import { Inbox, Mail } from "@mui/icons-material";
+import React, { useCallback, useState } from "react";
+import { Drawer as MUIDrawer, List, ListItem, ListItemIcon, ListItemText, useTheme } from "@mui/material";
+import { Inbox, Mail, Menu} from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
-const Drawer = (props: any) => {
+const Drawer = () => {
 
   const itemsList = [
     {
@@ -18,30 +18,42 @@ const Drawer = (props: any) => {
     }
   ];
 
-  const navigate = useNavigate();
+  const navigate = useNavigate(), { palette } = useTheme();
+  const [isOpen, setOpen] = useState(false);
+
+  const toggleOpen = useCallback(() => {
+    setOpen(!isOpen);
+  }, [isOpen])
 
   return (
-    <MUIDrawer open variant={"permanent"} style={{
-      width: "190px"
-    }}>
+    <>
+      <Menu style={{margin: 20}} onClick={toggleOpen}/>
+      <MUIDrawer open={isOpen} variant={"temporary"} onClose={toggleOpen}
+                 PaperProps={{
+                   sx:{
+                     backgroundColor: palette.background.default
+                   }
+                 }}
+      >
+        <List>
+          {
+            itemsList.map(item => {
+              const { text, icon, navi } = item;
 
-      <List>
-        {
-          itemsList.map(item => {
-            const { text, icon, navi } = item;
+              return (
+                <ListItem button key={text} onClick={() => navigate(navi)}>
 
-            return (
-              <ListItem button key={text} onClick={() => navigate(navi)}>
+                  {icon && <ListItemIcon>{icon}</ListItemIcon>}
+                  <ListItemText primary={text} />
+                </ListItem>
+              );
+            })
+          }
+        </List>
 
-                {icon && <ListItemIcon>{icon}</ListItemIcon>}
-                <ListItemText primary={text} />
-              </ListItem>
-            );
-          })
-        }
-      </List>
+      </MUIDrawer>
+    </>
 
-    </MUIDrawer>
   );
 };
 
