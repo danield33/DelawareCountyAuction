@@ -2,7 +2,7 @@ import { Organizations } from "./modules/organization";
 
 const data = require('./MockData.json');
 
-class db{
+class Auction{
 
   organizations: Organizations
 
@@ -12,4 +12,4 @@ class db{
 
 }
 
-export default new db();
+export const db = new Auction();
