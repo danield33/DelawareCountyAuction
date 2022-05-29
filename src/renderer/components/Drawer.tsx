@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { Drawer as MUIDrawer, List, ListItem, ListItemIcon, ListItemText, useTheme } from "@mui/material";
-import { Inbox, Mail, Menu} from "@mui/icons-material";
+import { Inbox, Mail, Menu } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 const Drawer = () => {
@@ -9,12 +9,12 @@ const Drawer = () => {
     {
       text: "Display",
       icon: <Inbox />,
-      navi: '/'
+      navi: "/"
     },
     {
       text: "Choose Winner",
       icon: <Mail />,
-      navi: '/selection'
+      navi: "/selection"
     }
   ];
 
@@ -23,14 +23,19 @@ const Drawer = () => {
 
   const toggleOpen = useCallback(() => {
     setOpen(!isOpen);
-  }, [isOpen])
+  }, [isOpen]);
+
+  const pressItem = useCallback((item: string) => () => {
+    navigate(item);
+    toggleOpen();
+  }, [isOpen, navigate]);
 
   return (
     <>
-      <Menu style={{margin: 20}} onClick={toggleOpen}/>
+      <Menu style={{ margin: 20 }} onClick={toggleOpen} />
       <MUIDrawer open={isOpen} variant={"temporary"} onClose={toggleOpen}
                  PaperProps={{
-                   sx:{
+                   sx: {
                      backgroundColor: palette.background.default
                    }
                  }}
@@ -41,7 +46,7 @@ const Drawer = () => {
               const { text, icon, navi } = item;
 
               return (
-                <ListItem button key={text} onClick={() => navigate(navi)}>
+                <ListItem button key={text} onClick={pressItem(navi)}>
 
                   {icon && <ListItemIcon>{icon}</ListItemIcon>}
                   <ListItemText primary={text} />
