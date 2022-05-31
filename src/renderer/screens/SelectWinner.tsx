@@ -87,7 +87,7 @@ function SelectWinner() {
             style: {
               color: "white"
             }
-          }} onChange={handleSearchFieldChange} />
+          }} onChange={handleSearchFieldChange} type={'search'}/>
         </ImageListItem>
         {[...organizations.values()].map(renderItem)}
       </ImageList>
