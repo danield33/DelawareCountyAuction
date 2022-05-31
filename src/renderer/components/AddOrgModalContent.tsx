@@ -1,34 +1,44 @@
-import React, {useCallback, useState} from "react";
-import { Box, Button, TextField } from "@mui/material";
+import React, { useCallback, useState } from "react";
+import { Box, Button, Fade, TextField, Grow } from "@mui/material";
 import styled from "@emotion/styled";
 
-const Input = styled('input')({
-  display: 'none'
-})
+const Input = styled("input")({
+  display: "none"
+});
 
 const AddOrgModalContent = () => {
 
   const [image, setImage] = useState<string>();
 
   const uploadImage = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    if(event.target.files && event.target.files[0]){
+    if (event.target.files && event.target.files[0]) {
       setImage(URL.createObjectURL(event.target.files[0]));
     }
   }, []);
 
+  const save = useCallback(() => {
+
+  }, []);
+
   return (
-    <Box component={'form'}
+    <Box component={"form"}
          sx={{
-           '& .MuiTextField-root': {m: 1, width: '25ch'},
+           "& .MuiTextField-root": { m: 1},
+           display: "flex",
+           flex: 1,
+           flexDirection: "column",
+           alignContent: "center",
+           justifyContent: "center"
          }}
          noValidate
     >
 
-      <TextField id={'org-name'} label={'Organization Name'} variant={'standard'} inputProps={{
+      <TextField id={"org-name"} label={"Organization Name"} variant={"standard"} fullWidth inputProps={{
         style: styles.input
-      }}/>
+      }} />
 
       <TextField
+        fullWidth
         inputProps={{
           style: styles.input
         }}
@@ -38,12 +48,31 @@ const AddOrgModalContent = () => {
         minRows={4}
       />
 
-      <img id={'target'} src={image}/>
+      <Grow in={Boolean(image)} timeout={1000}>
+        <div style={{ maxHeight: 300, overflow: "scroll" }}>
+          <img id={"target"} src={image}  alt={"Uploaded Image"}/>
+        </div>
+      </Grow>
 
-      <label htmlFor={'contained-button-file'}>
-        <Input accept={"image/*"} id={"contained-button-file"} multiple type={'file'} onChange={uploadImage}/>
-        <Button variant={'contained'} component={'span'}>Upload Image</Button>
-      </label>
+      <Box sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignContent: "center",
+        width: "100%",
+        flexDirection: 'column',
+        m: 1
+      }}>
+        <label htmlFor={"contained-button-file"} style={{flex: 1, width: '100%'}}>
+          <Input accept={"image/*"} id={"contained-button-file"} multiple type={"file"} onChange={uploadImage} />
+          <Button sx={{flex: 1, width: '100%'}} variant={"contained"} component={"span"}>Upload Image</Button>
+        </label>
+        <Fade in={Boolean(image)}>
+          <Button sx={{flex: 1}} variant={"outlined"} color={"error"} onClick={() => setImage(undefined)}>Remove</Button>
+        </Fade>
+
+      </Box>
+
+      <Button variant={"outlined"} onClick={save}>Save</Button>
 
     </Box>
   );
@@ -53,7 +82,7 @@ export default AddOrgModalContent;
 
 
 const styles = {
-  input:{
-    color: 'white'
+  input: {
+    color: "white"
   }
-}
+};
