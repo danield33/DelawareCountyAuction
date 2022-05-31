@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SelectWinner from "./screens/SelectWinner";
 import Drawer from "./components/Drawer";
 
-
 export default function App(): JSX.Element {
 
   return (

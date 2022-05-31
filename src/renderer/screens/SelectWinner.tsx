@@ -1,15 +1,29 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { Button, Collapse, ImageList, ImageListItem, ImageListItemBar, TextField, Fade, Fab } from "@mui/material";
-import {Add} from '@mui/icons-material';
+import {
+  Button,
+  Collapse,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
+  TextField,
+  Modal,
+  Backdrop,
+  Fade,
+  Box
+} from "@mui/material";
 import { db } from "../../main/database";
 import { Organization } from "../../main/database/modules/organization/Organization";
 import FloatingButtons from "../components/FloatingButtons";
+import AddOrgModalContent from "../components/AddOrgModalContent";
 
 
 function SelectWinner() {
 
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [searched, setSearched] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleClose = () => setModalOpen(false);
+  const handleOpen = () => setModalOpen(true);
 
   const toggleSelected = useCallback((item: string) => () => {
     if (!selected.has(item)) {
@@ -28,10 +42,6 @@ function SelectWinner() {
 
   const removeAll = useCallback(() => {
     setSelected(new Set());
-  }, []);
-
-  const newEntry = useCallback(() => {
-
   }, []);
 
   const renderItem = useCallback((item: Organization) => {
@@ -66,7 +76,7 @@ function SelectWinner() {
   const organizations = useMemo(() => db.organizations.orgs, [db.organizations]);
 
   return (
-    <div style={{ display: "flex", flex: 1, width: "100%", padding: 20, flexDirection: 'column' }}>
+    <div style={{ display: "flex", flex: 1, width: "100%", padding: 20, flexDirection: "column" }}>
 
       <ImageList sx={{ width: "100%", height: "100%" }}>
         <ImageListItem key="Subheader" cols={2}>
@@ -82,14 +92,45 @@ function SelectWinner() {
         {[...organizations.values()].map(renderItem)}
       </ImageList>
 
-      <FloatingButtons onDelete={removeAll} onAdd={newEntry}/>
+      <FloatingButtons onDelete={removeAll} onAdd={handleOpen} />
 
-        {/*<Fade in={!!selected.size}>*/}
-        {/*  <Button style={{position: '-webkit-sticky',}} variant={'outlined'} onClick={removeAll}>Remove all</Button>*/}
-        {/*</Fade>*/}
+      <Modal open={modalOpen}
+             aria-labelledby={'transition-modal-title'}
+             aria-describedby={'transition-modal-description'}
+             onClose={handleClose}
+             BackdropComponent={Backdrop}
+             BackdropProps={{
+               timeout: 500
+             }}
+      >
+        <Fade in={modalOpen}>
+          <Box sx={styles.box}>
+
+            <AddOrgModalContent/>
+
+          </Box>
+        </Fade>
+
+      </Modal>
+
 
     </div>
   );
 }
 
 export default SelectWinner;
+
+
+const styles = {
+  box: {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: 'background.default',
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4
+  }
+};
