@@ -1,8 +1,9 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { Button, Collapse, ImageList, ImageListItem, ImageListItemBar, TextField } from "@mui/material";
-import { TransitionGroup } from "react-transition-group";
+import { Button, Collapse, ImageList, ImageListItem, ImageListItemBar, TextField, Fade, Fab } from "@mui/material";
+import {Add} from '@mui/icons-material';
 import { db } from "../../main/database";
 import { Organization } from "../../main/database/modules/organization/Organization";
+import FloatingButtons from "../components/FloatingButtons";
 
 
 function SelectWinner() {
@@ -24,6 +25,14 @@ function SelectWinner() {
     const text = event.target.value;
     setSearched(text);
   }, [searched]);
+
+  const removeAll = useCallback(() => {
+    setSelected(new Set());
+  }, []);
+
+  const newEntry = useCallback(() => {
+
+  }, []);
 
   const renderItem = useCallback((item: Organization) => {
 
@@ -57,7 +66,7 @@ function SelectWinner() {
   const organizations = useMemo(() => db.organizations.orgs, [db.organizations]);
 
   return (
-    <div style={{ display: "flex", flex: 1, width: "100%", padding: 20 }}>
+    <div style={{ display: "flex", flex: 1, width: "100%", padding: 20, flexDirection: 'column' }}>
 
       <ImageList sx={{ width: "100%", height: "100%" }}>
         <ImageListItem key="Subheader" cols={2}>
@@ -72,6 +81,12 @@ function SelectWinner() {
         </ImageListItem>
         {[...organizations.values()].map(renderItem)}
       </ImageList>
+
+      <FloatingButtons onDelete={removeAll} onAdd={newEntry}/>
+
+        {/*<Fade in={!!selected.size}>*/}
+        {/*  <Button style={{position: '-webkit-sticky',}} variant={'outlined'} onClick={removeAll}>Remove all</Button>*/}
+        {/*</Fade>*/}
 
     </div>
   );

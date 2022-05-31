@@ -19,6 +19,16 @@
       "id": "4",
       "name": "Glacier",
       "image": "https://asia.olympus-imaging.com/content/000107508.jpg"
+    },
+    "5": {
+      "id": "5",
+      "name": "Swirly Moss",
+      "image": "https://asia.olympus-imaging.com/content/000107512.jpg"
+    },
+    "6": {
+      "id": "6",
+      "name": "Glacier",
+      "image": "https://asia.olympus-imaging.com/content/000107508.jpg"
     }
   }
 }
