@@ -73,7 +73,7 @@ function SelectWinner() {
     );
   }, [selected, searched]);
 
-  const organizations = useMemo(() => db.organizations.orgs, [db.organizations]);
+  const [organizations, setOrgs] = useState(db.organizations?.orgs ?? new Map());
 
   return (
     <div style={{ display: "flex", flex: 1, width: "100%", padding: 20, flexDirection: "column" }}>

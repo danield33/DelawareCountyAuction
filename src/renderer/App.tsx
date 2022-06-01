@@ -1,8 +1,8 @@
-import { Box, CssBaseline, ThemeProvider, Theme } from "@mui/material";
+import { Box, CssBaseline, ThemeProvider } from "@mui/material";
 import React, { useEffect } from "react";
 import theme from "./theme";
 import AuctionDisplay from "./screens/AuctionDisplay";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SelectWinner from "./screens/SelectWinner";
 import Drawer from "./components/Drawer";
 import { db } from "../main/database";
@@ -11,7 +11,14 @@ import { db } from "../main/database";
 export default function App(): JSX.Element {
 
   useEffect(() => {
-    db.socket.on('message', () => {});
+    fetch('http://localhost:8080/getData', {mode: 'cors'}).then(async (res) => {
+      const data: any = await res.json();
+      console.log(data);
+      db.init(data);
+    })
+    db.socket.on("displayNewWinners", (winnerIDs: string[]) => {
+
+    });
   }, []);
 
 
@@ -22,19 +29,19 @@ export default function App(): JSX.Element {
       <CssBaseline />
       <Box
         sx={{
-          backgroundColor: (theme) => theme.palette.background.default,
+          backgroundColor: (theme) => theme.palette.background.default
         }}
       >
         <main>
-            <BrowserRouter>
-              <div style={{display: 'flex'}}>
-              <Drawer/>
+          <BrowserRouter>
+            <div style={{ display: "flex" }}>
+              <Drawer />
               <Routes>
-                <Route path={"/"} element={<AuctionDisplay/>}/>
-                <Route path={"/selection"} element={<SelectWinner/>}/>
+                <Route path={"/"} element={<AuctionDisplay />} />
+                <Route path={"/selection"} element={<SelectWinner />} />
               </Routes>
-              </div>
-            </BrowserRouter>
+            </div>
+          </BrowserRouter>
         </main>
       </Box>
     </ThemeProvider>
