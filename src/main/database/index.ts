@@ -1,6 +1,5 @@
 import { Organizations } from "./modules/organization";
 
-const data = require('./MockData.json');
 const io = require('socket.io-client');
 
 class Auction{

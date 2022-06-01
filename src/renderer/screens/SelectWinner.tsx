@@ -1,20 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  Button,
-  Collapse,
-  ImageList,
-  ImageListItem,
-  ImageListItemBar,
-  TextField,
-  Modal,
-  Backdrop,
-  Fade,
-  Box
-} from "@mui/material";
+import React, { useCallback, useEffect, useState } from "react";
+import { Backdrop, Box, Fade, ImageList, ImageListItem, Modal, TextField } from "@mui/material";
 import { db } from "../../main/database";
 import { Organization } from "../../main/database/modules/organization/Organization";
 import FloatingButtons from "../components/FloatingButtons";
 import AddOrgModalContent from "../components/AddOrgModalContent";
+import { Organizations } from "../../main/database/modules/organization";
+import ParticipantBanner from "../components/ParticipantBanner";
 
 
 function SelectWinner() {
@@ -28,10 +19,11 @@ function SelectWinner() {
 
 
   useEffect(() => {
-    db.socket.on('dataUpdate', (data: any) => {
+    db.socket.on("dataUpdate", (data: any) => {
       db.init(data);
-      setOrgs(db.organizations?.orgs ?? new Map());
-    })
+      const map = db.organizations?.orgs ?? new Map();
+      setOrgs(map);
+    });
   }, []);
 
   const toggleSelected = useCallback((item: string) => () => {
@@ -59,26 +51,9 @@ function SelectWinner() {
     if (!isSearchedFor) return null;
 
     return (
-      <Collapse key={item.id} in={isSearchedFor} mountOnEnter unmountOnExit>
-        <ImageListItem key={item.image} sx={{}}>
-          <img
-            style={{
-              border: selected.has(item.id) ? "5px solid #98FF98" : undefined,
-              height: "400px"
-            }}
-            src={`${item.image}`}//?fit=crop&auto=format
-            srcSet={`${item.image}`}//?&fit=crop&auto=format&dpr=2 2x
-            alt={item.name}
-            loading="lazy"
-          />
-          <ImageListItemBar
-            title={item.name}
-            subtitle={item.description || ''}
-            actionIcon={<Button
-              onClick={toggleSelected(item.id)}>{selected.has(item.id) ? "Remove" : "Select"}</Button>}
-          />
-        </ImageListItem>
-      </Collapse>
+      <ParticipantBanner participant={item} isSelected={selected.has(item.id)}
+                         onSelect={toggleSelected}
+                         isShown={isSearchedFor} key={item.id}/>
     );
   }, [selected, searched]);
 
@@ -95,7 +70,7 @@ function SelectWinner() {
             style: {
               color: "white"
             }
-          }} onChange={handleSearchFieldChange} type={'search'}/>
+          }} onChange={handleSearchFieldChange} type={"search"} />
         </ImageListItem>
         {[...organizations.values()].map(renderItem)}
       </ImageList>
@@ -103,8 +78,8 @@ function SelectWinner() {
       <FloatingButtons onDelete={removeAll} onAdd={handleOpen} />
 
       <Modal open={modalOpen}
-             aria-labelledby={'transition-modal-title'}
-             aria-describedby={'transition-modal-description'}
+             aria-labelledby={"transition-modal-title"}
+             aria-describedby={"transition-modal-description"}
              onClose={handleClose}
              BackdropComponent={Backdrop}
              BackdropProps={{
@@ -114,7 +89,7 @@ function SelectWinner() {
         <Fade in={modalOpen}>
           <Box sx={styles.box}>
 
-            <AddOrgModalContent onSave={handleClose}/>
+            <AddOrgModalContent onSave={handleClose} />
 
           </Box>
         </Fade>
@@ -136,7 +111,7 @@ const styles = {
     left: "50%",
     transform: "translate(-50%, -50%)",
     minWidth: 400,
-    bgcolor: 'background.default',
+    bgcolor: "background.default",
     border: "2px solid #000",
     boxShadow: 24,
     p: 4

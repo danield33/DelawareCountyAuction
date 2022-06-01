@@ -13,7 +13,6 @@ function createWindow() {
       nodeIntegration: true,
       contextIsolation: false,
       devTools: process.env.NODE_ENV !== "production",
-      preload: path.resolve(path.join(__dirname, '../preload.ts'))
     },
   });
 
