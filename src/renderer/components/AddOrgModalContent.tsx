@@ -7,7 +7,11 @@ const Input = styled("input")({
   display: "none"
 });
 
-const AddOrgModalContent = () => {
+interface AddOrgModalContentProps{
+  onSave?: () => void;
+}
+
+const AddOrgModalContent = ({onSave}: AddOrgModalContentProps) => {
 
   const [image, setImage] = useState<string | ArrayBuffer>();
   const [name, setName] = useState("");
@@ -29,6 +33,7 @@ const AddOrgModalContent = () => {
       description: desc,
       image
     });
+    onSave?.();
   }, [image, name, desc]);
 
   return (

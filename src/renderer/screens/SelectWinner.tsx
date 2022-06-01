@@ -114,7 +114,7 @@ function SelectWinner() {
         <Fade in={modalOpen}>
           <Box sx={styles.box}>
 
-            <AddOrgModalContent/>
+            <AddOrgModalContent onSave={handleClose}/>
 
           </Box>
         </Fade>
