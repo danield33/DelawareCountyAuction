@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Button,
   Collapse,
@@ -24,6 +24,15 @@ function SelectWinner() {
   const [modalOpen, setModalOpen] = useState(false);
   const handleClose = () => setModalOpen(false);
   const handleOpen = () => setModalOpen(true);
+  const [organizations, setOrgs] = useState(db.organizations?.orgs ?? new Map());
+
+
+  useEffect(() => {
+    db.socket.on('dataUpdate', (data: any) => {
+      db.init(data);
+      setOrgs(db.organizations?.orgs ?? new Map());
+    })
+  }, []);
 
   const toggleSelected = useCallback((item: string) => () => {
     if (!selected.has(item)) {
@@ -57,14 +66,14 @@ function SelectWinner() {
               border: selected.has(item.id) ? "5px solid #98FF98" : undefined,
               height: "400px"
             }}
-            src={`${item.image}?fit=crop&auto=format`}
-            srcSet={`${item.image}?&fit=crop&auto=format&dpr=2 2x`}
+            src={`${item.image}`}//?fit=crop&auto=format
+            srcSet={`${item.image}`}//?&fit=crop&auto=format&dpr=2 2x
             alt={item.name}
             loading="lazy"
           />
           <ImageListItemBar
             title={item.name}
-            subtitle={item.name}
+            subtitle={item.description || ''}
             actionIcon={<Button
               onClick={toggleSelected(item.id)}>{selected.has(item.id) ? "Remove" : "Select"}</Button>}
           />
@@ -73,7 +82,6 @@ function SelectWinner() {
     );
   }, [selected, searched]);
 
-  const [organizations, setOrgs] = useState(db.organizations?.orgs ?? new Map());
 
   return (
     <div style={{ display: "flex", flex: 1, width: "100%", padding: 20, flexDirection: "column" }}>

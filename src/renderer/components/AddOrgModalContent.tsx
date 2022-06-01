@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { Box, Button, Fade, Grow, TextField } from "@mui/material";
 import styled from "@emotion/styled";
+import { db } from "../../main/database";
 
 const Input = styled("input")({
   display: "none"
@@ -9,20 +10,26 @@ const Input = styled("input")({
 const AddOrgModalContent = () => {
 
   const [image, setImage] = useState<string | ArrayBuffer>();
+  const [name, setName] = useState("");
+  const [desc, setDesc] = useState("");
 
   const uploadImage = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e: ProgressEvent<FileReader>) => {
         setImage(e.target?.result || undefined);
-      }
-      reader.readAsDataURL(event.target.files[0])
+      };
+      reader.readAsDataURL(event.target.files[0]);
     }
   }, []);
 
   const save = useCallback(() => {
-    console.log(image);
-  }, [image]);
+    db.socket.emit("addNewOrg", {
+      name,
+      description: desc,
+      image
+    });
+  }, [image, name, desc]);
 
   return (
     <Box component={"form"}
@@ -37,9 +44,14 @@ const AddOrgModalContent = () => {
          noValidate
     >
 
-      <TextField required id={"org-name"} label={"Organization Name"} variant={"standard"} fullWidth inputProps={{
-        style: styles.input
-      }} />
+      <TextField required
+                 id={"org-name"}
+                 label={"Organization Name"}
+                 variant={"standard"}
+                 fullWidth
+                 inputProps={{
+                   style: styles.input
+                 }} onChange={e => setName(e.target.value)} />
 
       <TextField
         fullWidth
@@ -50,6 +62,7 @@ const AddOrgModalContent = () => {
         label="Description"
         multiline
         minRows={4}
+        onChange={e => setDesc(e.target.value)}
       />
 
       <Grow in={Boolean(image)} timeout={1000}>
