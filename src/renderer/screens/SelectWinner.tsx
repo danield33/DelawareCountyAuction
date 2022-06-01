@@ -88,9 +88,7 @@ function SelectWinner() {
       >
         <Fade in={modalOpen}>
           <Box sx={styles.box}>
-
             <AddOrgModalContent onSave={handleClose} />
-
           </Box>
         </Fade>
 
@@ -104,7 +102,7 @@ function SelectWinner() {
 export default SelectWinner;
 
 
-const styles = {
+export const styles = {
   box: {
     position: "absolute" as "absolute",
     top: "50%",

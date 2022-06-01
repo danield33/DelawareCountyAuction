@@ -7,33 +7,34 @@ const Input = styled("input")({
   display: "none"
 });
 
-interface AddOrgModalContentProps{
-  onSave?: () => void;
+interface AddOrgModalContentProps {
+  onSave?: (name: string, description?: string, image?: string) => void;
+  image?: string,
+  name?: string,
+  description?: string,
 }
 
-const AddOrgModalContent = ({onSave}: AddOrgModalContentProps) => {
+const AddOrgModalContent = ({ onSave, image: img, name: n, description }: AddOrgModalContentProps) => {
 
-  const [image, setImage] = useState<string | ArrayBuffer>();
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
+  const [image, setImage] = useState(img);
+  const [name, setName] = useState(n);
+  const [desc, setDesc] = useState(description);
 
   const uploadImage = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e: ProgressEvent<FileReader>) => {
-        setImage(e.target?.result || undefined);
+        setImage(e.target?.result?.toString() || "");
       };
       reader.readAsDataURL(event.target.files[0]);
     }
   }, []);
 
   const save = useCallback(() => {
-    db.socket.emit("addNewOrg", {
-      name,
-      description: desc,
-      image
-    });
-    onSave?.();
+
+    if(!name) return;
+
+    onSave?.(name, description, image);
   }, [image, name, desc]);
 
   return (
@@ -54,6 +55,8 @@ const AddOrgModalContent = ({onSave}: AddOrgModalContentProps) => {
                  label={"Organization Name"}
                  variant={"standard"}
                  fullWidth
+                 error={!name?.length}
+                 value={name}
                  inputProps={{
                    style: styles.input
                  }} onChange={e => setName(e.target.value)} />
@@ -67,6 +70,7 @@ const AddOrgModalContent = ({onSave}: AddOrgModalContentProps) => {
         label="Description"
         multiline
         minRows={4}
+        value={description}
         onChange={e => setDesc(e.target.value)}
       />
 
@@ -90,7 +94,7 @@ const AddOrgModalContent = ({onSave}: AddOrgModalContentProps) => {
         </label>
         <Fade in={Boolean(image)}>
           <Button sx={{ flex: 1 }} variant={"outlined"} color={"error"}
-                  onClick={() => setImage(undefined)}>Remove</Button>
+                  onClick={() => setImage("")}>Remove</Button>
         </Fade>
 
       </Box>
