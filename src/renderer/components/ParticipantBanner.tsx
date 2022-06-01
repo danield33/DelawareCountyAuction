@@ -3,6 +3,7 @@ import { Backdrop, Box, Button, Collapse, Fade, ImageListItem, ImageListItemBar,
 import { Organization } from "../../main/database/modules/organization/Organization";
 import AddOrgModalContent from "./AddOrgModalContent";
 import { styles } from "../screens/SelectWinner";
+import { db } from "../../main/database";
 
 interface ParticipantBannerProps {
   participant: Organization,
@@ -25,7 +26,19 @@ const ParticipantBanner = ({ participant, isSelected, onSelect, isShown }: Parti
 
   }, []);
 
-  const save = useCallback(() => {
+  const save = useCallback((name: string, description?: string, img?: string) => {
+
+    if(!img){
+      db.socket.emit('deleteImage', id);
+    }
+
+      db.socket.emit('updateOrg', {
+      name,
+      description: description,
+      image: img,
+      id: id
+    });
+
     setOpen(false);
   }, []);
 

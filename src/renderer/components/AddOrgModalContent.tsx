@@ -32,10 +32,14 @@ const AddOrgModalContent = ({ onSave, image: img, name: n, description }: AddOrg
 
   const save = useCallback(() => {
 
-    if(!name) return;
+    if(!name) return alert('Please input a name');
 
-    onSave?.(name, description, image);
+    onSave?.(name, desc, image);
   }, [image, name, desc]);
+
+  const removeImage = useCallback(() => {
+    setImage(undefined);
+  }, []);
 
   return (
     <Box component={"form"}
@@ -94,7 +98,7 @@ const AddOrgModalContent = ({ onSave, image: img, name: n, description }: AddOrg
         </label>
         <Fade in={Boolean(image)}>
           <Button sx={{ flex: 1 }} variant={"outlined"} color={"error"}
-                  onClick={() => setImage("")}>Remove</Button>
+                  onClick={removeImage}>Remove</Button>
         </Fade>
 
       </Box>

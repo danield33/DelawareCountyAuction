@@ -4,7 +4,6 @@ import { db } from "../../main/database";
 import { Organization } from "../../main/database/modules/organization/Organization";
 import FloatingButtons from "../components/FloatingButtons";
 import AddOrgModalContent from "../components/AddOrgModalContent";
-import { Organizations } from "../../main/database/modules/organization";
 import ParticipantBanner from "../components/ParticipantBanner";
 
 
@@ -53,9 +52,20 @@ function SelectWinner() {
     return (
       <ParticipantBanner participant={item} isSelected={selected.has(item.id)}
                          onSelect={toggleSelected}
-                         isShown={isSearchedFor} key={item.id}/>
+                         isShown={isSearchedFor} key={item.id} />
     );
   }, [selected, searched]);
+
+  const createNew = useCallback((name: string, description?: string, image?: string) => {
+
+    db.socket.emit('addNewOrg', {
+      name,
+      description: description,
+      image: image
+    });
+    handleClose();
+
+  }, []);
 
 
   return (
@@ -88,7 +98,7 @@ function SelectWinner() {
       >
         <Fade in={modalOpen}>
           <Box sx={styles.box}>
-            <AddOrgModalContent onSave={handleClose} />
+            <AddOrgModalContent onSave={createNew} />
           </Box>
         </Fade>
 
