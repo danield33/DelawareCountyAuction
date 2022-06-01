@@ -10,3 +10,4 @@ document.body.appendChild(root);
 
 // Render the app component
 render(<App />, document.getElementById("root"));
+

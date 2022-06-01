@@ -1,12 +1,19 @@
 import { Box, CssBaseline, ThemeProvider, Theme } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import theme from "./theme";
 import AuctionDisplay from "./screens/AuctionDisplay";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SelectWinner from "./screens/SelectWinner";
 import Drawer from "./components/Drawer";
+import { db } from "../main/database";
+
 
 export default function App(): JSX.Element {
+
+  useEffect(() => {
+    db.socket.on('message', () => {});
+  }, []);
+
 
   return (
     // Setup theme and css baseline for the Material-UI app
