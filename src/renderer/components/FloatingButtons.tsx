@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Fab } from "@mui/material";
-import { Add, Delete } from "@mui/icons-material";
+import { Add, ClearAll } from "@mui/icons-material";
 
 interface FloatingButtonsProps{
   onAdd?: () => void;
@@ -20,7 +20,7 @@ const FloatingButtons = ({onAdd, onDelete}: FloatingButtonsProps) => {
       </Fab>
 
       <Fab color={"secondary"} aria-label={"remove-all"}>
-        <Delete onClick={onDelete}/>
+        <ClearAll onClick={onDelete}/>
       </Fab>
     </Box>
   );

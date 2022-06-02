@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Backdrop, Box, Dialog, Fade, ImageList, ImageListItem, Modal, TextField } from "@mui/material";
+import { Dialog, ImageList, ImageListItem, TextField } from "@mui/material";
 import { db } from "../../main/database";
 import { Organization } from "../../main/database/modules/organization/Organization";
 import FloatingButtons from "../components/FloatingButtons";
@@ -59,7 +59,7 @@ function SelectWinner() {
 
   const createNew = useCallback((name: string, description?: string, image?: string) => {
 
-    db.socket.emit('addNewOrg', {
+    db.socket.emit("addNewOrg", {
       name,
       description: description,
       image: image
@@ -89,7 +89,7 @@ function SelectWinner() {
       <FloatingButtons onDelete={removeAll} onAdd={handleOpen} />
 
       <Dialog open={modalOpen} onClose={handleClose}
-              maxWidth={'md'}
+              maxWidth={"md"}
               PaperProps={{ style: { backgroundColor: theme.palette.background.default } }}>
         <AddOrgModalContent onSave={createNew} />
       </Dialog>
