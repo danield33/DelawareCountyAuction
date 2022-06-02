@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Backdrop, Box, Button, Collapse, Fade, ImageListItem, ImageListItemBar, Modal } from "@mui/material";
+import { Button, Collapse, Dialog, ImageListItem, ImageListItemBar } from "@mui/material";
 import { Organization } from "../../main/database/modules/organization/Organization";
 import AddOrgModalContent from "./AddOrgModalContent";
-import { styles } from "../screens/SelectWinner";
 import { db } from "../../main/database";
+import theme from "../theme";
 
 interface ParticipantBannerProps {
   participant: Organization,
@@ -86,26 +86,13 @@ const ParticipantBanner = ({ participant, isSelected, onSelect, isShown }: Parti
         </ImageListItem>
       </Collapse>
 
-      <Modal open={openModal}
-             aria-labelledby={"transition-modal-title"}
-             aria-describedby={"transition-modal-description"}
-             onClose={() => setOpen(false)}
-             BackdropComponent={Backdrop}
-             style={{
-               overflow: 'scroll'
-             }}
-             BackdropProps={{
-               timeout: 500
-             }}>
-        <Fade in={openModal}>
-          <Box sx={styles.box}>
-            <AddOrgModalContent onSave={save} name={name} description={description}
-                                image={image}
-                                onDelete={() => deleteItem(id)} />
-          </Box>
-        </Fade>
-
-      </Modal>
+      <Dialog open={openModal} onClose={() => setOpen(false)}
+              maxWidth={'md'}
+              PaperProps={{ style: { backgroundColor: theme.palette.background.default } }}>
+        <AddOrgModalContent onSave={save} name={name} description={description}
+                            image={image}
+                            onDelete={() => deleteItem(id)} />
+      </Dialog>
     </>
   );
 };

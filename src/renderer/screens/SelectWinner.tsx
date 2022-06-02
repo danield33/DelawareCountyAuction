@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Backdrop, Box, Fade, ImageList, ImageListItem, Modal, TextField } from "@mui/material";
+import { Backdrop, Box, Dialog, Fade, ImageList, ImageListItem, Modal, TextField } from "@mui/material";
 import { db } from "../../main/database";
 import { Organization } from "../../main/database/modules/organization/Organization";
 import FloatingButtons from "../components/FloatingButtons";
 import AddOrgModalContent from "../components/AddOrgModalContent";
 import ParticipantBanner from "../components/ParticipantBanner";
+import theme from "../theme";
 
 
 function SelectWinner() {
@@ -87,26 +88,11 @@ function SelectWinner() {
 
       <FloatingButtons onDelete={removeAll} onAdd={handleOpen} />
 
-      <Modal open={modalOpen}
-             aria-labelledby={"transition-modal-title"}
-             aria-describedby={"transition-modal-description"}
-             onClose={handleClose}
-             BackdropComponent={Backdrop}
-             BackdropProps={{
-               timeout: 500
-             }}
-             style={{
-               overflow: 'scroll'
-             }}
-      >
-        <Fade in={modalOpen}>
-          <Box sx={styles.box}>
-            <AddOrgModalContent onSave={createNew} />
-          </Box>
-        </Fade>
-
-      </Modal>
-
+      <Dialog open={modalOpen} onClose={handleClose}
+              maxWidth={'md'}
+              PaperProps={{ style: { backgroundColor: theme.palette.background.default } }}>
+        <AddOrgModalContent onSave={createNew} />
+      </Dialog>
 
     </div>
   );

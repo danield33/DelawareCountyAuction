@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { Box, Button, Fade, Grow, TextField } from "@mui/material";
+import { Box, Button, DialogActions, DialogContent, Fade, Grow, TextField } from "@mui/material";
 import styled from "@emotion/styled";
 import { db } from "../../main/database";
 
@@ -48,17 +48,10 @@ const AddOrgModalContent = ({ onSave, image: img, name: n, description, onDelete
 
   return (
 
-    <Box component={"form"}
-         sx={{
-           "& .MuiTextField-root": { m: 1 },
-           display: "flex",
-           flex: 1,
-           flexDirection: "column",
-           alignContent: "center",
-           justifyContent: "center",
-         }}
-         noValidate
-    >
+    <>
+    <DialogContent sx={{
+      "& .MuiTextField-root": { m: 1 },
+    }}>
 
       <TextField required
                  id={"org-name"}
@@ -84,9 +77,9 @@ const AddOrgModalContent = ({ onSave, image: img, name: n, description, onDelete
         onChange={e => setDesc(e.target.value)}
       />
 
-      <Grow in={Boolean(image)} timeout={1000} style={{maxHeight: '10%'}}>
-        <div style={{ maxHeight: '10%', overflow: "scroll"}}>
-          <img id={"target"} src={image?.toString()} alt={"Uploaded Image"} style={{objectFit: 'cover', maxHeight: '10%'}}/>
+      <Grow in={Boolean(image)} timeout={1000}>
+        <div style={{ overflow: "scroll"}}>
+          <img id={"target"} src={image?.toString()} alt={"Uploaded Image"} style={{objectFit: 'cover'}}/>
         </div>
       </Grow>
 
@@ -109,12 +102,15 @@ const AddOrgModalContent = ({ onSave, image: img, name: n, description, onDelete
 
       </Box>
 
+    </DialogContent>
 
-      <Button variant={"outlined"} onClick={save}>Save</Button>
-      <Button variant={"outlined"} color={"error"} onClick={deleteItem}>Delete</Button>
+      <DialogActions>
+        <Button onClick={save}>Save</Button>
+        <Button color={'error'} onClick={deleteItem}>Delete</Button>
+      </DialogActions>
 
+    </>
 
-    </Box>
   );
 };
 
