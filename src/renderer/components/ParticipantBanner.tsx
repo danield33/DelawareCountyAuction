@@ -20,9 +20,17 @@ const ParticipantBanner = ({ participant, isSelected, onSelect, isShown }: Parti
 
   useEffect(() => {
 
-    participant.getImage().then(img => {
+    const getImage = () => participant.getImage().then(img => {
       setImage(img);
     });
+
+    getImage();
+
+    db.socket.on('imageUpdate', (id: string) => {
+      if(id === participant.id){
+        getImage();
+      }
+    })
 
   }, []);
 

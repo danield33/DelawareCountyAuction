@@ -74,7 +74,7 @@ const AddOrgModalContent = ({ onSave, image: img, name: n, description }: AddOrg
         label="Description"
         multiline
         minRows={4}
-        value={description}
+        value={desc}
         onChange={e => setDesc(e.target.value)}
       />
 
