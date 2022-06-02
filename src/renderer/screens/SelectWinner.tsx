@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
   Button,
-  Dialog, DialogActions,
+  Dialog,
+  DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
@@ -81,14 +82,14 @@ function SelectWinner() {
   }, []);
 
   const sendWinners = useCallback(() => {
-    db.socket.emit('displayNewWinner', [...selected]);
+    db.socket.emit("displayNewWinner", [...selected]);
     setSelected(new Set());
     setAlert(false);
   }, [selected]);
 
   const alertWinners = useCallback(() => {
     setAlert(true);
-  }, [])
+  }, []);
 
 
   return (
@@ -108,7 +109,7 @@ function SelectWinner() {
         {[...organizations.values()].map(renderItem)}
       </ImageList>
 
-      <FloatingButtons onDelete={removeAll} onAdd={handleOpen} onSend={alertWinners}/>
+      <FloatingButtons onDelete={removeAll} onAdd={handleOpen} onSend={alertWinners} />
 
       <Dialog open={modalOpen} onClose={handleClose}
               maxWidth={"md"}
@@ -132,10 +133,10 @@ function SelectWinner() {
               [...selected].map(i => {
                 const org = organizations.get(i);
                 return (
-                 <li key={org.id}>
-                   {org.name}
-                 </li>
-                )
+                  <li key={org.id}>
+                    {org.name}
+                  </li>
+                );
               })
             }
           </ul>

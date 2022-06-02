@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Box, Button, Collapse, Dialog, ImageListItem, ImageListItemBar } from "@mui/material";
+import { Button, Collapse, Dialog, ImageListItem, ImageListItemBar } from "@mui/material";
 import { Organization } from "../../main/database/modules/organization/Organization";
 import AddOrgModalContent from "./AddOrgModalContent";
 import { db } from "../../main/database";
@@ -67,21 +67,21 @@ const ParticipantBanner = ({ participant, isSelected, onSelect, isShown }: Parti
 
           {
             image ?
-            <img
-              onClick={() => setOpen(true)}
-              style={{
-                border: isSelected ? "5px solid #98FF98" : undefined,
-                height: "400px",
-                maxWidth: "100%",
-                maxHeight: "100%",
-                objectFit: "contain"
-              }}
-              src={image}//?fit=crop&auto=format
-              srcSet={image}//?&fit=crop&auto=format&dpr=2 2x
-              alt={name}
-              loading="lazy"
-            />
-              : <BrokenImage style={{fontSize: 450}} onClick={() => setOpen(true)}/>
+              <img
+                onClick={() => setOpen(true)}
+                style={{
+                  border: isSelected ? "5px solid #98FF98" : undefined,
+                  height: "400px",
+                  maxWidth: "100%",
+                  maxHeight: "100%",
+                  objectFit: "contain"
+                }}
+                src={image}//?fit=crop&auto=format
+                srcSet={image}//?&fit=crop&auto=format&dpr=2 2x
+                alt={name}
+                loading="lazy"
+              />
+              : <BrokenImage style={{ fontSize: 450 }} onClick={() => setOpen(true)} />
           }
 
           <ImageListItemBar

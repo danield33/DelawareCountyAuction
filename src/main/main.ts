@@ -12,8 +12,8 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      devTools: process.env.NODE_ENV !== "production",
-    },
+      devTools: process.env.NODE_ENV !== "production"
+    }
   });
 
   if (process.env.NODE_ENV === "development") {
@@ -23,7 +23,7 @@ function createWindow() {
       url.format({
         pathname: path.join(__dirname, "renderer/index.html"),
         protocol: "file:",
-        slashes: true,
+        slashes: true
       })
     );
   }

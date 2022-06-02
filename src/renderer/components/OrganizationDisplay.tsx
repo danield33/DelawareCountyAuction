@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Organization } from "../../main/database/modules/organization/Organization";
 import { BrokenImage } from "@mui/icons-material";
 import { ImageListItem, ImageListItemBar } from "@mui/material";
-import { db } from "../../main/database";
 
-interface OrganizationDisplayProps{
+interface OrganizationDisplayProps {
   organization: Organization;
 }
 
-function OrganizationDisplay({organization}: OrganizationDisplayProps) {
+function OrganizationDisplay({ organization }: OrganizationDisplayProps) {
 
   const [image, setImage] = useState("");
 
@@ -22,7 +21,7 @@ function OrganizationDisplay({organization}: OrganizationDisplayProps) {
 
   }, []);
 
-  const {description, name} = organization;
+  const { description, name } = organization;
 
   return (
     <ImageListItem>
@@ -39,7 +38,7 @@ function OrganizationDisplay({organization}: OrganizationDisplayProps) {
             alt={name}
             loading="lazy"
           />
-          : <BrokenImage style={{fontSize: 450}}/>
+          : <BrokenImage style={{ fontSize: 450 }} />
       }
 
       <ImageListItemBar
