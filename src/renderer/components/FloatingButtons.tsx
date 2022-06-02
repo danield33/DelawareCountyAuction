@@ -1,13 +1,14 @@
 import React from "react";
 import { Box, Fab } from "@mui/material";
-import { Add, ClearAll } from "@mui/icons-material";
+import { Add, ClearAll, Send } from "@mui/icons-material";
 
 interface FloatingButtonsProps{
   onAdd?: () => void;
   onDelete?: () => void;
+  onSend?: () => void;
 }
 
-const FloatingButtons = ({onAdd, onDelete}: FloatingButtonsProps) => {
+const FloatingButtons = ({onAdd, onDelete, onSend}: FloatingButtonsProps) => {
   return (
     <Box sx={{
       "& > :not(style)": { m: 1 },
@@ -22,6 +23,11 @@ const FloatingButtons = ({onAdd, onDelete}: FloatingButtonsProps) => {
       <Fab color={"secondary"} aria-label={"remove-all"}>
         <ClearAll onClick={onDelete}/>
       </Fab>
+
+      <Fab color={"success"} aria-label={"send"}>
+        <Send onClick={onSend}/>
+      </Fab>
+
     </Box>
   );
 };

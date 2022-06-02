@@ -10,8 +10,11 @@ export default function AuctionDisplay(): JSX.Element {
   useEffect(() => {
     db.socket.on("displayNewWinners", (winnerIDs: string[]) => {
       setIDs(winnerIDs);
+      console.log(winnerIDs)
     });
   }, []);
+
+  console.log(orgIDs)
 
   return (
     <Container maxWidth="md" sx={{ mt: 8 }}>

@@ -1,5 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Dialog, ImageList, ImageListItem, TextField } from "@mui/material";
+import {
+  Button,
+  Dialog, DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  ImageList,
+  ImageListItem,
+  TextField
+} from "@mui/material";
 import { db } from "../../main/database";
 import { Organization } from "../../main/database/modules/organization/Organization";
 import FloatingButtons from "../components/FloatingButtons";
@@ -13,8 +22,11 @@ function SelectWinner() {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [searched, setSearched] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [alertOpen, setAlert] = useState(false);
   const handleClose = () => setModalOpen(false);
   const handleOpen = () => setModalOpen(true);
+  const handleAlertClose = () => setAlert(false);
+
   const [organizations, setOrgs] = useState(db.organizations?.orgs ?? new Map());
 
 
@@ -68,6 +80,16 @@ function SelectWinner() {
 
   }, []);
 
+  const sendWinners = useCallback(() => {
+    db.socket.emit('displayNewWinner', [...selected]);
+    setSelected(new Set());
+    setAlert(false);
+  }, [selected]);
+
+  const alertWinners = useCallback(() => {
+    setAlert(true);
+  }, [])
+
 
   return (
     <div style={{ display: "flex", flex: 1, width: "100%", padding: 20, flexDirection: "column" }}>
@@ -86,12 +108,44 @@ function SelectWinner() {
         {[...organizations.values()].map(renderItem)}
       </ImageList>
 
-      <FloatingButtons onDelete={removeAll} onAdd={handleOpen} />
+      <FloatingButtons onDelete={removeAll} onAdd={handleOpen} onSend={alertWinners}/>
 
       <Dialog open={modalOpen} onClose={handleClose}
               maxWidth={"md"}
               PaperProps={{ style: { backgroundColor: theme.palette.background.default } }}>
         <AddOrgModalContent onSave={createNew} />
+      </Dialog>
+
+      <Dialog
+        open={alertOpen}
+        onClose={handleAlertClose}
+      >
+        <DialogTitle>
+          Send Selected Organizations
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to update the screen to these selected organizations?
+          </DialogContentText>
+          <ul>
+            {
+              [...selected].map(i => {
+                const org = organizations.get(i);
+                return (
+                 <li key={org.id}>
+                   {org.name}
+                 </li>
+                )
+              })
+            }
+          </ul>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleAlertClose}>No</Button>
+          <Button onClick={sendWinners} autoFocus>
+            Send
+          </Button>
+        </DialogActions>
       </Dialog>
 
     </div>
