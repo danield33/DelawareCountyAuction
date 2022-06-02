@@ -1,4 +1,4 @@
-import { ImageList } from "@mui/material";
+import { Container, ImageList } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { db } from "../../main/database";
 import OrganizationDisplay from "../components/OrganizationDisplay";
@@ -28,13 +28,17 @@ export default function AuctionDisplay(): JSX.Element {
 
   return (
 
-    <div>
+    <Container maxWidth={'lg'}>
 
-      <ImageList sx={{ width: "100%", height: "100%" }}>
-        {orgIDs.map(renderItem)}
-      </ImageList>
+      {
+        orgIDs.length ?
+        <ImageList sx={{ width: "100%", height: "100%", alignContent: 'center', alignItems: 'center'}}>
+          {orgIDs.map(renderItem)}
+        </ImageList>
+          : <h1 style={{alignSelf: 'center'}}>Pending Results...</h1>
+      }
 
-    </div>
+    </Container>
 
   );
 }
