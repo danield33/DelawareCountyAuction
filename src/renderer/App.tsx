@@ -6,16 +6,15 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SelectWinner from "./screens/SelectWinner";
 import Drawer from "./components/Drawer";
 import { db } from "../main/database";
-import useForceReload from "./hooks/useForceReload";
 
 
 export default function App(): JSX.Element {
 
   useEffect(() => {
-    fetch('http://localhost:8080/getData', {mode: 'cors'}).then(async (res) => {
+    fetch("http://localhost:8080/getData", { mode: "cors" }).then(async (res) => {
       const data: any = await res.json();
       db.init(data);
-    })
+    });
   }, []);
 
 

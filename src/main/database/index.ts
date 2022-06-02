@@ -1,19 +1,19 @@
 import { Organizations } from "./modules/organization";
 
-const io = require('socket.io-client');
+const io = require("socket.io-client");
 
-class Auction{
+class Auction {
 
   readonly socket;
   organizations?: Organizations;
   private _isInitialized: boolean = false;
 
   constructor() {
-    this.socket = io('ws://localhost:8080');
+    this.socket = io("ws://localhost:8080");
   }
 
-  init(data: any){
-    this.organizations = new Organizations(data.participants)
+  init(data: any) {
+    this.organizations = new Organizations(data.participants);
     this._isInitialized = true;
   }
 
