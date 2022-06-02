@@ -1,26 +1,40 @@
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { ImageList } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import electronLogo from "../../../static/electron.svg";
 import { db } from "../../main/database";
+import OrganizationDisplay from "../components/OrganizationDisplay";
 
 export default function AuctionDisplay(): JSX.Element {
 
-  const [orgIDs, setIDs] = useState<string[]>([]);
+  const [orgIDs, setIDs] = useState<string[]>(db.organizations?.winners ?? []);
 
   useEffect(() => {
     db.socket.on("displayNewWinners", (winnerIDs: string[]) => {
       setIDs(winnerIDs);
-      console.log(winnerIDs)
+      db.organizations!.winners = winnerIDs;
     });
   }, []);
 
-  console.log(orgIDs)
+  const renderItem = (orgID: string) => {
+
+    const org = db.organizations?.orgs.get(orgID);
+    if (!org) return null;
+
+    return (
+      <OrganizationDisplay organization={org} />
+    );
+
+  };
+
 
   return (
-    <Container maxWidth="md" sx={{ mt: 8 }}>
 
+    <div>
 
+      <ImageList sx={{ width: "100%", height: "100%" }}>
+        {orgIDs.map(renderItem)}
+      </ImageList>
 
-    </Container>
+    </div>
+
   );
 }
