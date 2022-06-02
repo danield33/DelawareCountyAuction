@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, Collapse, Dialog, ImageListItem, ImageListItemBar } from "@mui/material";
+import { Box, Button, Collapse, Dialog, ImageListItem, ImageListItemBar } from "@mui/material";
 import { Organization } from "../../main/database/modules/organization/Organization";
 import AddOrgModalContent from "./AddOrgModalContent";
 import { db } from "../../main/database";
 import theme from "../theme";
+import { BrokenImage } from "@mui/icons-material";
 
 interface ParticipantBannerProps {
   participant: Organization,
@@ -63,20 +64,26 @@ const ParticipantBanner = ({ participant, isSelected, onSelect, isShown }: Parti
 
       <Collapse in={isShown} mountOnEnter unmountOnExit>
         <ImageListItem>
-          <img
-            onClick={() => setOpen(true)}
-            style={{
-              border: isSelected ? "5px solid #98FF98" : undefined,
-              height: "400px",
-              maxWidth: "100%",
-              maxHeight: "100%",
-              objectFit: "contain"
-            }}
-            src={image}//?fit=crop&auto=format
-            srcSet={image}//?&fit=crop&auto=format&dpr=2 2x
-            alt={name}
-            loading="lazy"
-          />
+
+          {
+            image ?
+            <img
+              onClick={() => setOpen(true)}
+              style={{
+                border: isSelected ? "5px solid #98FF98" : undefined,
+                height: "400px",
+                maxWidth: "100%",
+                maxHeight: "100%",
+                objectFit: "contain"
+              }}
+              src={image}//?fit=crop&auto=format
+              srcSet={image}//?&fit=crop&auto=format&dpr=2 2x
+              alt={name}
+              loading="lazy"
+            />
+              : <BrokenImage style={{fontSize: 450}} onClick={() => setOpen(true)}/>
+          }
+
           <ImageListItemBar
             title={name}
             subtitle={description || ""}
@@ -87,7 +94,7 @@ const ParticipantBanner = ({ participant, isSelected, onSelect, isShown }: Parti
       </Collapse>
 
       <Dialog open={openModal} onClose={() => setOpen(false)}
-              maxWidth={'md'}
+              maxWidth={"md"}
               PaperProps={{ style: { backgroundColor: theme.palette.background.default } }}>
         <AddOrgModalContent onSave={save} name={name} description={description}
                             image={image}
