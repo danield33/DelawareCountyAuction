@@ -26,21 +26,21 @@ const ParticipantBanner = ({ participant, isSelected, onSelect, isShown }: Parti
 
     getImage();
 
-    db.socket.on('imageUpdate', (id: string) => {
-      if(id === participant.id){
+    db.socket.on("imageUpdate", (id: string) => {
+      if (id === participant.id) {
         getImage();
       }
-    })
+    });
 
   }, []);
 
   const save = useCallback((name: string, description?: string, img?: string) => {
 
-    if(!img){
-      db.socket.emit('deleteImage', id);
+    if (!img) {
+      db.socket.emit("deleteImage", id);
     }
 
-      db.socket.emit('updateOrg', {
+    db.socket.emit("updateOrg", {
       name,
       description: description,
       image: img,
@@ -48,6 +48,12 @@ const ParticipantBanner = ({ participant, isSelected, onSelect, isShown }: Parti
     });
 
     setOpen(false);
+  }, []);
+
+  const deleteItem = useCallback((itemID: string) => {
+    if (!itemID) return;
+
+    db.socket.emit("deleteOrg", itemID);
   }, []);
 
   const { name, description, id } = participant;
@@ -61,7 +67,10 @@ const ParticipantBanner = ({ participant, isSelected, onSelect, isShown }: Parti
             onClick={() => setOpen(true)}
             style={{
               border: isSelected ? "5px solid #98FF98" : undefined,
-              height: "400px"
+              height: "400px",
+              maxWidth: "100%",
+              maxHeight: "100%",
+              objectFit: "contain"
             }}
             src={image}//?fit=crop&auto=format
             srcSet={image}//?&fit=crop&auto=format&dpr=2 2x
@@ -82,12 +91,17 @@ const ParticipantBanner = ({ participant, isSelected, onSelect, isShown }: Parti
              aria-describedby={"transition-modal-description"}
              onClose={() => setOpen(false)}
              BackdropComponent={Backdrop}
+             style={{
+               overflow: 'scroll'
+             }}
              BackdropProps={{
                timeout: 500
              }}>
         <Fade in={openModal}>
           <Box sx={styles.box}>
-            <AddOrgModalContent onSave={save} name={name} description={description} image={image}/>
+            <AddOrgModalContent onSave={save} name={name} description={description}
+                                image={image}
+                                onDelete={() => deleteItem(id)} />
           </Box>
         </Fade>
 

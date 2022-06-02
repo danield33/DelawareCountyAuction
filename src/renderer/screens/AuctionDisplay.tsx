@@ -1,19 +1,23 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import electronLogo from "../../../static/electron.svg";
+import { db } from "../../main/database";
 
 export default function AuctionDisplay(): JSX.Element {
+
+  const [orgIDs, setIDs] = useState<string[]>([]);
+
+  useEffect(() => {
+    db.socket.on("displayNewWinners", (winnerIDs: string[]) => {
+      setIDs(winnerIDs);
+    });
+  }, []);
+
   return (
     <Container maxWidth="md" sx={{ mt: 8 }}>
-      <Grid container justifyContent="center">
-        <Box component="img" src={electronLogo} width={200} height={200} />
-      </Grid>
-      <Typography variant="h1" textAlign="center" sx={{ mt: 8 }}>
-        Electron boilerplate with TypeScript, React, and MUI
-      </Typography>
-      <Typography variant="body1" textAlign="center" sx={{ mt: 2 }}>
-        Made by HelloSoftware
-      </Typography>
+
+
+
     </Container>
   );
 }

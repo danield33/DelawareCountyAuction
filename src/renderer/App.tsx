@@ -16,9 +16,6 @@ export default function App(): JSX.Element {
       const data: any = await res.json();
       db.init(data);
     })
-    db.socket.on("displayNewWinners", (winnerIDs: string[]) => {
-
-    });
   }, []);
 
 

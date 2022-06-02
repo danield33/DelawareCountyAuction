@@ -95,6 +95,9 @@ function SelectWinner() {
              BackdropProps={{
                timeout: 500
              }}
+             style={{
+               overflow: 'scroll'
+             }}
       >
         <Fade in={modalOpen}>
           <Box sx={styles.box}>

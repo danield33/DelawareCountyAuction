@@ -9,12 +9,13 @@ const Input = styled("input")({
 
 interface AddOrgModalContentProps {
   onSave?: (name: string, description?: string, image?: string) => void;
+  onDelete?: () => void;
   image?: string,
   name?: string,
   description?: string,
 }
 
-const AddOrgModalContent = ({ onSave, image: img, name: n, description }: AddOrgModalContentProps) => {
+const AddOrgModalContent = ({ onSave, image: img, name: n, description, onDelete }: AddOrgModalContentProps) => {
 
   const [image, setImage] = useState(img);
   const [name, setName] = useState(n);
@@ -41,7 +42,12 @@ const AddOrgModalContent = ({ onSave, image: img, name: n, description }: AddOrg
     setImage(undefined);
   }, []);
 
+  const deleteItem = useCallback(() => {
+    onDelete?.();
+  }, []);
+
   return (
+
     <Box component={"form"}
          sx={{
            "& .MuiTextField-root": { m: 1 },
@@ -49,7 +55,7 @@ const AddOrgModalContent = ({ onSave, image: img, name: n, description }: AddOrg
            flex: 1,
            flexDirection: "column",
            alignContent: "center",
-           justifyContent: "center"
+           justifyContent: "center",
          }}
          noValidate
     >
@@ -78,9 +84,9 @@ const AddOrgModalContent = ({ onSave, image: img, name: n, description }: AddOrg
         onChange={e => setDesc(e.target.value)}
       />
 
-      <Grow in={Boolean(image)} timeout={1000}>
-        <div style={{ maxHeight: 300, overflow: "scroll" }}>
-          <img id={"target"} src={image?.toString()} alt={"Uploaded Image"} />
+      <Grow in={Boolean(image)} timeout={1000} style={{maxHeight: '10%'}}>
+        <div style={{ maxHeight: '10%', overflow: "scroll"}}>
+          <img id={"target"} src={image?.toString()} alt={"Uploaded Image"} style={{objectFit: 'cover', maxHeight: '10%'}}/>
         </div>
       </Grow>
 
@@ -90,7 +96,7 @@ const AddOrgModalContent = ({ onSave, image: img, name: n, description }: AddOrg
         alignContent: "center",
         width: "100%",
         flexDirection: "column",
-        m: 1
+        m: 1,
       }}>
         <label htmlFor={"contained-button-file"} style={{ flex: 1, width: "100%" }}>
           <Input accept={"image/*"} id={"contained-button-file"} multiple type={"file"} onChange={uploadImage} />
@@ -98,12 +104,15 @@ const AddOrgModalContent = ({ onSave, image: img, name: n, description }: AddOrg
         </label>
         <Fade in={Boolean(image)}>
           <Button sx={{ flex: 1 }} variant={"outlined"} color={"error"}
-                  onClick={removeImage}>Remove</Button>
+                  onClick={removeImage}>Remove Image</Button>
         </Fade>
 
       </Box>
 
+
       <Button variant={"outlined"} onClick={save}>Save</Button>
+      <Button variant={"outlined"} color={"error"} onClick={deleteItem}>Delete</Button>
+
 
     </Box>
   );
