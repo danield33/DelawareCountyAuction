@@ -33,6 +33,7 @@ git clone https://github.com/hellosoftware-io/electron-typescript-react-material
 ```
 
 2. Navigate to the project root
+"/Users/bartleby848/Desktop/Side Projects/Delaware County Fair/AuctionDesktopApp"
 
 ```sh
 cd myapp
