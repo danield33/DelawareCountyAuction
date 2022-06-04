@@ -28,14 +28,14 @@ export default function AuctionDisplay(): JSX.Element {
 
   return (
 
-    <Container maxWidth={'lg'}>
+    <Container maxWidth={"lg"}>
 
       {
         orgIDs.length ?
-        <ImageList sx={{ width: "100%", height: "100%", alignContent: 'center', alignItems: 'center'}}>
-          {orgIDs.map(renderItem)}
-        </ImageList>
-          : <h1 style={{alignSelf: 'center'}}>Pending Results...</h1>
+          <ImageList sx={{ width: "100%", height: "100%", alignContent: "center", alignItems: "center" }}>
+            {orgIDs.map(renderItem)}
+          </ImageList>
+          : <h1 style={{ alignSelf: "center" }}>Pending Results...</h1>
       }
 
     </Container>

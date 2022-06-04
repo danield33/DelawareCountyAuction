@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { Drawer as MUIDrawer, List, ListItem, ListItemIcon, ListItemText, useTheme } from "@mui/material";
-import { Inbox, Mail, Menu } from "@mui/icons-material";
+import { Menu, Monitor, SelectAll } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 const Drawer = () => {
@@ -8,18 +8,18 @@ const Drawer = () => {
   const itemsList = [
     {
       text: "Display",
-      icon: <Inbox />,
+      icon: <Monitor color={"primary"} />,
       navi: "/"
     },
     {
       text: "Choose Winner",
-      icon: <Mail />,
+      icon: <SelectAll color={"primary"} />,
       navi: "/selection"
     }
   ];
 
   const navigate = useNavigate(), { palette } = useTheme();
-  const [isOpen, setOpen] = useState(false);
+  const [isOpen, setOpen] = useState(true);
 
   const toggleOpen = useCallback(() => {
     setOpen(!isOpen);
