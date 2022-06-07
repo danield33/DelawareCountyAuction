@@ -19,7 +19,7 @@ const Drawer = () => {
   ];
 
   const navigate = useNavigate(), { palette } = useTheme();
-  const [isOpen, setOpen] = useState(true);
+  const [isOpen, setOpen] = useState(false);
 
   const toggleOpen = useCallback(() => {
     setOpen(!isOpen);
