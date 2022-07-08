@@ -1,4 +1,5 @@
 import { Organizations } from "./modules/organization";
+import {PORT} from "../constants";
 
 const io = require("socket.io-client");
 
@@ -8,7 +9,7 @@ class Auction {
   organizations?: Organizations;
 
   constructor() {
-    this.socket = io("ws://localhost:8080");
+    this.socket = io("ws://"+ PORT.substring(8));
   }
 
   private _isInitialized: boolean = false;
