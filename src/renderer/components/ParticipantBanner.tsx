@@ -1,107 +1,131 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Button, Collapse, Dialog, ImageListItem, ImageListItemBar } from "@mui/material";
-import { Organization } from "../../main/database/modules/organization/Organization";
+import React, {useCallback, useEffect, useState} from "react";
+import {Button, Collapse, Dialog, ImageListItem, ImageListItemBar} from "@mui/material";
+import {Organization} from "../../main/database/modules/organization/Organization";
 import AddOrgModalContent from "./AddOrgModalContent";
-import { db } from "../../main/database";
+import {db} from "../../main/database";
 import theme from "../theme";
-import { BrokenImage } from "@mui/icons-material";
+import {BrokenImage} from "@mui/icons-material";
+import {Alert} from "./Alert";
 
 interface ParticipantBannerProps {
-  participant: Organization,
-  isSelected: boolean,
-  onSelect: (id: string) => () => void,
-  isShown: boolean
+    participant: Organization,
+    isSelected: boolean,
+    onSelect: (id: string) => () => void,
+    isShown: boolean
 }
 
 
-const ParticipantBanner = ({ participant, isSelected, onSelect, isShown }: ParticipantBannerProps) => {
+const ParticipantBanner = ({participant, isSelected, onSelect, isShown}: ParticipantBannerProps) => {
 
-  const [image, setImage] = useState("");
-  const [openModal, setOpen] = useState(false);
+    const [image, setImage] = useState("");
+    const [openModal, setOpen] = useState(false);
+    const [openDeleteModal, setDelete] = useState(false),
+        handleDelClose = () => setDelete(false),
+        handleDelOpen = () => setDelete(true);
 
-  useEffect(() => {
+    useEffect(() => {
 
-    const getImage = () => participant.getImage().then(img => {
-      setImage(img);
-    });
+        const getImage = () => participant.getImage().then(img => {
+            setImage(img);
+        });
 
-    getImage();
-
-    db.socket.on("imageUpdate", (id: string) => {
-      if (id === participant.id) {
         getImage();
-      }
-    });
 
-  }, []);
+        db.socket.on("imageUpdate", (id: string) => {
+            if (id === participant.id) {
+                getImage();
+            }
+        });
 
-  const save = useCallback((name: string, description?: string, img?: string) => {
+    }, []);
 
-    if (!img) {
-      db.socket.emit("deleteImage", id);
-    }
+    const save = useCallback((name: string, description?: string, img?: string) => {
 
-    db.socket.emit("updateOrg", {
-      name,
-      description: description,
-      image: img,
-      id: id
-    });
+        if (!img) {
+            db.socket.emit("deleteImage", id);
+        }
 
-    setOpen(false);
-  }, []);
+        db.socket.emit("updateOrg", {
+            name,
+            description: description,
+            image: img,
+            id: id
+        });
 
-  const deleteItem = useCallback((itemID: string) => {
-    if (!itemID) return;
+        setOpen(false);
+    }, []);
 
-    db.socket.emit("deleteOrg", itemID);
-  }, []);
+    const promptDelete = useCallback(() => {
+        handleDelOpen();
+    }, []);
 
-  const { name, description, id } = participant;
+    const deleteItem = useCallback((itemID: string) => {
+        if (!itemID) return;
+        db.socket.emit("deleteOrg", itemID);
+    }, []);
 
-  return (
-    <>
+    const {name, description, id} = participant;
 
-      <Collapse in={isShown} mountOnEnter unmountOnExit>
-        <ImageListItem>
+    return (
+        <>
 
-          {
-            image ?
-              <img
-                onClick={() => setOpen(true)}
-                style={{
-                  border: isSelected ? "5px solid #98FF98" : undefined,
-                  height: "400px",
-                  maxWidth: "100%",
-                  maxHeight: "100%",
-                  objectFit: "contain"
-                }}
-                src={image}//?fit=crop&auto=format
-                srcSet={image}//?&fit=crop&auto=format&dpr=2 2x
-                alt={name}
-                loading="lazy"
-              />
-              : <BrokenImage style={{ fontSize: 450 }} onClick={() => setOpen(true)} />
-          }
+            <Collapse in={isShown} mountOnEnter unmountOnExit>
+                <ImageListItem>
 
-          <ImageListItemBar
-            title={name}
-            subtitle={description || ""}
-            actionIcon={<Button
-              onClick={onSelect(id)}>{isSelected ? "Remove" : "Select"}</Button>}
-          />
-        </ImageListItem>
-      </Collapse>
+                    {
+                        image ?
+                            <img
+                                onClick={() => setOpen(true)}
+                                style={{
+                                    border: isSelected ? "5px solid #98FF98" : undefined,
+                                    height: "400px",
+                                    maxWidth: "100%",
+                                    maxHeight: "100%",
+                                    objectFit: "contain"
+                                }}
+                                src={image}//?fit=crop&auto=format
+                                srcSet={image}//?&fit=crop&auto=format&dpr=2 2x
+                                alt={name}
+                                loading="lazy"
+                            />
+                            : <BrokenImage style={{fontSize: 450}} onClick={() => setOpen(true)}/>
+                    }
 
-      <Dialog open={openModal} onClose={() => setOpen(false)}
-              maxWidth={"md"}
-              PaperProps={{ style: { backgroundColor: theme.palette.background.default } }}>
-        <AddOrgModalContent onSave={save} name={name} description={description}
-                            image={image}
-                            onDelete={() => deleteItem(id)} />
-      </Dialog>
-    </>
-  );
+                    <ImageListItemBar
+                        title={name}
+                        subtitle={description || ""}
+                        actionIcon={<Button
+                            onClick={onSelect(id)}>{isSelected ? "Remove" : "Select"}</Button>}
+                    />
+                </ImageListItem>
+            </Collapse>
+
+
+
+            <Dialog open={openModal} onClose={() => setOpen(false)}
+                    maxWidth={"md"}
+                    PaperProps={{style: {backgroundColor: theme.palette.background.default}}}>
+                <AddOrgModalContent onSave={save} name={name} description={description}
+                                    image={image}
+                                    onDelete={promptDelete}/>
+            </Dialog>
+
+            <Alert title={'Delete Organization?'}
+                   description={"Are you sue you want to delete this organization?"}
+                   actions={[
+                       {
+                           text: 'Cancel',
+                           onPress: () => void 0
+                       },
+                       {
+                           text: 'Delete',
+                           onPress: () => deleteItem(participant.id),
+                       }
+                   ]}
+                   onClose={handleDelClose} isOpen={openDeleteModal}/>
+
+        </>
+    );
 };
 
 export default ParticipantBanner;
