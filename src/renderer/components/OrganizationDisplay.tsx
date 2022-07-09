@@ -19,7 +19,7 @@ function OrganizationDisplay({ organization }: OrganizationDisplayProps) {
 
     getImage();
 
-  }, []);
+  }, [organization]);
 
   const { description, name } = organization;
 

@@ -60,7 +60,7 @@ function SelectWinner() {
 
   const renderItem = useCallback((item: Organization) => {
 
-    const isSearchedFor = item.name.toLowerCase().includes(searched.toLowerCase());
+    const isSearchedFor = item.id.toLowerCase().includes(searched.toLowerCase());
     if (!isSearchedFor) return null;
 
     return (
@@ -97,7 +97,7 @@ function SelectWinner() {
 
       <ImageList sx={{ width: "100%", height: "100%" }}>
         <ImageListItem key="Subheader" cols={2}>
-          <TextField id={"org-search"} label={"Search"} variant={"filled"} sx={{
+          <TextField id={"org-search"} label={"Search by ID"} variant={"filled"} sx={{
             backgroundColor: "rgba(255,255,255,0.25)",
             color: "white"
           }} inputProps={{
