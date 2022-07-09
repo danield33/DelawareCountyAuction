@@ -75,7 +75,7 @@ function SelectWinner() {
     db.socket.emit("addNewOrg", {
       name,
       description: description,
-      image: image
+      image: image//base 64
     });
     handleClose();
 

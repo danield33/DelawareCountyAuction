@@ -6,12 +6,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SelectWinner from "./screens/SelectWinner";
 import Drawer from "./components/Drawer";
 import { db } from "../main/database";
+import {PORT} from "../main/constants";
 
 
 export default function App(): JSX.Element {
 
   useEffect(() => {
-    fetch("http://localhost:8080/getData", { mode: "cors" }).then(async (res) => {
+    fetch(PORT+"/getData", { mode: "cors" }).then(async (res) => {
       const data: any = await res.json();
       db.init(data);
     });
