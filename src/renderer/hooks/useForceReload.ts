@@ -1,10 +1,10 @@
-import { useState } from "react";
+import {useState} from "react";
 
 const useForceReload = () => {
 
-  const [val, setVal] = useState(false);
+    const [val, setVal] = useState(false);
 
-  return () => setVal(!val);
+    return () => setVal(!val);
 
 };
 

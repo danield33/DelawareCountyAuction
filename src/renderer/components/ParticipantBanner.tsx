@@ -101,7 +101,6 @@ const ParticipantBanner = ({participant, isSelected, onSelect, isShown}: Partici
             </Collapse>
 
 
-
             <Dialog open={openModal} onClose={() => setOpen(false)}
                     maxWidth={"md"}
                     PaperProps={{style: {backgroundColor: theme.palette.background.default}}}>

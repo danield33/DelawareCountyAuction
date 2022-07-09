@@ -1,52 +1,52 @@
-import React, { useEffect, useState } from "react";
-import { Organization } from "../../main/database/modules/organization/Organization";
-import { BrokenImage } from "@mui/icons-material";
-import { ImageListItem, ImageListItemBar } from "@mui/material";
+import React, {useEffect, useState} from "react";
+import {Organization} from "../../main/database/modules/organization/Organization";
+import {BrokenImage} from "@mui/icons-material";
+import {ImageListItem, ImageListItemBar} from "@mui/material";
 
 interface OrganizationDisplayProps {
-  organization: Organization;
+    organization: Organization;
 }
 
-function OrganizationDisplay({ organization }: OrganizationDisplayProps) {
+function OrganizationDisplay({organization}: OrganizationDisplayProps) {
 
-  const [image, setImage] = useState("");
+    const [image, setImage] = useState("");
 
-  useEffect(() => {
+    useEffect(() => {
 
-    const getImage = () => organization.getImage().then(img => {
-      setImage(img);
-    });
+        const getImage = () => organization.getImage().then(img => {
+            setImage(img);
+        });
 
-    getImage();
+        getImage();
 
-  }, [organization]);
+    }, [organization]);
 
-  const { description, name } = organization;
+    const {description, name} = organization;
 
-  return (
-    <ImageListItem>
+    return (
+        <ImageListItem>
 
-      {
-        image ?
-          <img
-            style={{
-              objectFit: "contain",
-              height: 400
-            }}
-            src={image}//?fit=crop&auto=format
-            srcSet={image}//?&fit=crop&auto=format&dpr=2 2x
-            alt={name}
-            loading="lazy"
-          />
-          : <BrokenImage style={{ fontSize: 450 }} />
-      }
+            {
+                image ?
+                    <img
+                        style={{
+                            objectFit: "contain",
+                            height: 400
+                        }}
+                        src={image}//?fit=crop&auto=format
+                        srcSet={image}//?&fit=crop&auto=format&dpr=2 2x
+                        alt={name}
+                        loading="lazy"
+                    />
+                    : <BrokenImage style={{fontSize: 450}}/>
+            }
 
-      <ImageListItemBar
-        title={name}
-        subtitle={description || ""}
-      />
-    </ImageListItem>
-  );
+            <ImageListItemBar
+                title={name}
+                subtitle={description || ""}
+            />
+        </ImageListItem>
+    );
 }
 
 export default OrganizationDisplay;
