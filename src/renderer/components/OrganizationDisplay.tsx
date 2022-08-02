@@ -21,7 +21,7 @@ function OrganizationDisplay({organization}: OrganizationDisplayProps) {
 
     }, [organization]);
 
-    const {description, name} = organization;
+    const {description, name, id} = organization;
 
     return (
         <ImageListItem>
@@ -42,7 +42,7 @@ function OrganizationDisplay({organization}: OrganizationDisplayProps) {
             }
 
             <ImageListItemBar
-                title={name}
+                title={name + ` (ID: ${id})`}
                 subtitle={description || ""}
             />
         </ImageListItem>

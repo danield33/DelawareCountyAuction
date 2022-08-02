@@ -92,7 +92,7 @@ const ParticipantBanner = ({participant, isSelected, onSelect, isShown}: Partici
                     }
 
                     <ImageListItemBar
-                        title={name}
+                        title={name + ` (ID: ${id})`}
                         subtitle={description || ""}
                         actionIcon={<Button
                             onClick={onSelect(id)}>{isSelected ? "Remove" : "Select"}</Button>}
