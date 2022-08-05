@@ -26,18 +26,15 @@ const ParticipantBanner = ({participant, isSelected, onSelect, isShown}: Partici
     useEffect(() => {
 
         const getImage = () => participant.getImage().then(img => {
-            setImage(img);
+            setImage('')
+            console.log(img)
+            if (img)
+                setImage(img);
         });
 
         getImage();
 
-        db.socket.on("imageUpdate", (id: string) => {
-            if (id === participant.id) {
-                getImage();
-            }
-        });
-
-    }, []);
+    }, [participant]);
 
     const save = useCallback((name: string, description?: string, img?: string) => {
 

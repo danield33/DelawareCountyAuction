@@ -14,8 +14,8 @@ export class Organization {
 
 
     async getImage() {
-        return await fetch(PORT + "/images?id=" + this.id, {mode: "cors"}).then(async (res) => {
-            return await res.json();
+        return await fetch(PORT + "/images?id=" + this.id, {mode: "cors", cache:'reload'}).then(async (res) => {
+            return await res.json()+"&t="+Date.now();
         });
     }
 
