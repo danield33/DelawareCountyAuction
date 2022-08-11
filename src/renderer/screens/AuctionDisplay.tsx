@@ -2,17 +2,26 @@ import {ImageList} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import {db} from "../../main/database";
 import OrganizationDisplay from "../components/OrganizationDisplay";
+import {ipcRenderer} from "electron";
 
 
 export default function AuctionDisplay(): JSX.Element {
 
     const [orgIDs, setIDs] = useState<string[]>(db.organizations?.winners ?? []);
+    const [hideDescriptors, setDescriptors] = useState<boolean>(false);
 
     useEffect(() => {
         db.socket.on("displayNewWinners", (winnerIDs: string[]) => {
             setIDs(winnerIDs);
             db.organizations!.winners = winnerIDs;
         });
+    }, []);
+
+    useEffect(() => {
+        ipcRenderer.on('descriptorsHide', (e, data) => {
+            setDescriptors(data.hidden);
+        });
+
     }, []);
 
     const renderItem = (orgID: string, height?: number) => {
@@ -26,7 +35,7 @@ export default function AuctionDisplay(): JSX.Element {
         if (!org) return null;
 
         return (
-            <OrganizationDisplay organization={org} height={height}/>
+            <OrganizationDisplay showDescription={!hideDescriptors} organization={org} height={height}/>
         );
 
     };

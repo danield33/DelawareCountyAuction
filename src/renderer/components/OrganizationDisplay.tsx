@@ -2,13 +2,15 @@ import React, {useEffect, useState} from "react";
 import {Organization} from "../../main/database/modules/organization/Organization";
 import {BrokenImage} from "@mui/icons-material";
 import {ImageListItem, ImageListItemBar} from "@mui/material";
+import {ipcMain} from "electron";
 
 interface OrganizationDisplayProps {
     organization: Organization;
-    height: number|undefined
+    height: number | undefined;
+    showDescription: boolean;
 }
 
-function OrganizationDisplay({organization, height}: OrganizationDisplayProps) {
+function OrganizationDisplay({organization, height, showDescription}: OrganizationDisplayProps) {
 
     const [image, setImage] = useState("");
 
@@ -42,10 +44,14 @@ function OrganizationDisplay({organization, height}: OrganizationDisplayProps) {
                     : <BrokenImage style={{fontSize: 450}}/>
             }
 
-            <ImageListItemBar
-                title={name + ` (ID: ${id})`}
-                subtitle={description || ""}
-            />
+            {
+                showDescription ?
+                    <ImageListItemBar
+                        title={name + ` (ID: ${id})`}
+                        subtitle={description || ""}
+                    />
+                    : null
+            }
         </ImageListItem>
     );
 }
