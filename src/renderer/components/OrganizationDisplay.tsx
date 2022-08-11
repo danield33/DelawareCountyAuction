@@ -5,9 +5,10 @@ import {ImageListItem, ImageListItemBar} from "@mui/material";
 
 interface OrganizationDisplayProps {
     organization: Organization;
+    height: number|undefined
 }
 
-function OrganizationDisplay({organization}: OrganizationDisplayProps) {
+function OrganizationDisplay({organization, height}: OrganizationDisplayProps) {
 
     const [image, setImage] = useState("");
 
@@ -24,14 +25,14 @@ function OrganizationDisplay({organization}: OrganizationDisplayProps) {
     const {description, name, id} = organization;
 
     return (
-        <ImageListItem>
+        <ImageListItem sx={{flex: 1}}>
 
             {
                 image ?
                     <img
                         style={{
                             objectFit: "contain",
-                            height: 400
+                            height: height
                         }}
                         src={image}//?fit=crop&auto=format
                         srcSet={image}//?&fit=crop&auto=format&dpr=2 2x
