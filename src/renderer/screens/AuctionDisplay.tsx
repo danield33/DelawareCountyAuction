@@ -19,7 +19,6 @@ export default function AuctionDisplay(): JSX.Element {
 
         const org = db.organizations?.orgs.get(orgID);
         if (height === undefined) {
-            console.log(window.screen.height, 12)
             height = window.screen.height / 2 - 100
         }
         if (height != undefined && height < 0)

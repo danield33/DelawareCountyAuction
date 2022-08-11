@@ -27,7 +27,6 @@ const ParticipantBanner = ({participant, isSelected, onSelect, isShown}: Partici
 
         const getImage = () => participant.getImage().then(img => {
             setImage('')
-            console.log(img)
             if (img)
                 setImage(img);
         });
