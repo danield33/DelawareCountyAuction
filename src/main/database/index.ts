@@ -9,7 +9,7 @@ class Auction {
     organizations?: Organizations;
 
     constructor() {
-        this.socket = io("ws://" + PORT.substring(7));
+        this.socket = io("ws://" + PORT.substring(8));
     }
 
     private _isInitialized: boolean = false;
