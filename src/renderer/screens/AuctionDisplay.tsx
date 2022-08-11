@@ -2,7 +2,6 @@ import {ImageList} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import {db} from "../../main/database";
 import OrganizationDisplay from "../components/OrganizationDisplay";
-import {screen} from "electron";
 
 
 export default function AuctionDisplay(): JSX.Element {
@@ -40,12 +39,12 @@ export default function AuctionDisplay(): JSX.Element {
             width: '100%',
             flex: 1,
             display: 'flex',
-            height: '100vh',
+            height: orgIDs.length <= 2 ? '100vh' : undefined,
             alignItems: 'center',
             justifyContent: 'center'
         }}>
 
-            {//sx={{width: "100%", height: "100%", alignContent: "center", alignItems: "center"}}
+            {
                 orgIDs.length > 2 ?
                     <ImageList>
                         {orgIDs.map((id) => renderItem(id))}
