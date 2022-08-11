@@ -1,11 +1,11 @@
-import {Container, ImageList} from "@mui/material";
+import {Box, Container, Grid, ImageList} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import {db} from "../../main/database";
 import OrganizationDisplay from "../components/OrganizationDisplay";
 
 export default function AuctionDisplay(): JSX.Element {
 
-    const [orgIDs, setIDs] = useState<string[]>(db.organizations?.winners ?? []);
+    const [orgIDs, setIDs] = useState<string[]>(db.organizations?.winners ?? []);//
 
     useEffect(() => {
         db.socket.on("displayNewWinners", (winnerIDs: string[]) => {
@@ -20,7 +20,9 @@ export default function AuctionDisplay(): JSX.Element {
         if (!org) return null;
 
         return (
-            <OrganizationDisplay organization={org}/>
+            // <Grid item xs={true} key={org.id}>
+                <OrganizationDisplay organization={org}/>
+            // </Grid>
         );
 
     };
@@ -28,17 +30,34 @@ export default function AuctionDisplay(): JSX.Element {
 
     return (
 
-        <Container maxWidth={"lg"}>
 
-            {
-                orgIDs.length ?
-                    <ImageList sx={{width: "100%", height: "100%", alignContent: "center", alignItems: "center"}}>
-                        {orgIDs.map(renderItem)}
-                    </ImageList>
-                    : <h1 style={{alignSelf: "center"}}>Pending Results...</h1>
-            }
+        <Box sx={{
+            height: '95vh',
+            width: '100vw',
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            // overflow: 'hidden'
+        }} >
 
-        </Container>
+            {orgIDs.map(renderItem)}
+
+        </Box>
+
+        // <Grid container spacing={{xs: 2}} sx={{height: '100%'}} columns={2}>
+        //     {orgIDs.map(renderItem)}
+        // </Grid>
+
+        // <Container maxWidth={"xl"} sx={{display: 'flex', flex: 1, flexDirection: 'row', flexWrap: 'rows'}}>
+        //
+        //     {
+        //         orgIDs.length ?
+        //             // <ImageList sx={{width: "100%", height: "100%", alignContent: "center", alignItems: "center"}}>
+        //                 orgIDs.map(renderItem)
+        //             : <h1 style={{alignSelf: "center"}}>Pending Results...</h1>
+        //     }
+        //
+        // </Container>
 
     );
 }
