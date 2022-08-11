@@ -24,13 +24,14 @@ function OrganizationDisplay({organization}: OrganizationDisplayProps) {
     const {description, name, id} = organization;
 
     return (
-        <ImageListItem key={id} >
+        <ImageListItem>
 
             {
                 image ?
                     <img
                         style={{
                             objectFit: "contain",
+                            height: 400
                         }}
                         src={image}//?fit=crop&auto=format
                         srcSet={image}//?&fit=crop&auto=format&dpr=2 2x

@@ -54,6 +54,7 @@ function SelectWinner() {
         const isSearchedFor = item.id.toLowerCase().includes(searched.toLowerCase());
         if (!isSearchedFor) return null;
 
+        console.log(item)
         return (
             <ParticipantBanner participant={item} isSelected={selected.has(item.id)}
                                onSelect={toggleSelected}
