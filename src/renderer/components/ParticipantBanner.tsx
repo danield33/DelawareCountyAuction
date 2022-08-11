@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from "react";
-import {Button, Collapse, Dialog, ImageListItem, ImageListItemBar} from "@mui/material";
+import {Button, CircularProgress, Collapse, Dialog, ImageListItem, ImageListItemBar} from "@mui/material";
 import {Organization} from "../../main/database/modules/organization/Organization";
 import AddOrgModalContent from "./AddOrgModalContent";
 import {db} from "../../main/database";
@@ -77,14 +77,17 @@ const ParticipantBanner = ({participant, isSelected, onSelect, isShown}: Partici
                                     height: "400px",
                                     maxWidth: "100%",
                                     maxHeight: "100%",
-                                    objectFit: "contain"
+                                    objectFit: "contain",
+                                    lineHeight: '100px',
+                                    textAlign: 'center',
+                                    fontSize: '50px'
                                 }}
                                 src={image}//?fit=crop&auto=format
                                 srcSet={image}//?&fit=crop&auto=format&dpr=2 2x
                                 alt={name}
                                 loading="lazy"
                             />
-                            : <BrokenImage style={{fontSize: 450}} onClick={() => setOpen(true)}/>
+                            :  <CircularProgress size={50}/>//<BrokenImage style={{fontSize: 450}} onClick={() => setOpen(true)}/>
                     }
 
                     <ImageListItemBar

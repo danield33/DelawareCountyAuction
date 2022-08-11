@@ -1,8 +1,8 @@
 {
-  "name": "electron-typescript-react",
+  "name": "delaware-county-fair-auction-app",
   "version": "1.0.0",
   "private": true,
-  "description": "Lightweight, modern boilerplate built with electron, typescript, and react.",
+  "description": "An Auction app for the delaware county fair",
   "main": "./dist/main.js",
   "scripts": {
     "dev": "npm-run-all -p dev:react electron:serve",
@@ -18,7 +18,7 @@
     "package:dist": "electron-builder --dir"
   },
   "keywords": [],
-  "author": "HelloSoftware",
+  "author": "Daniel Dawit",
   "license": "MIT",
   "dependencies": {
     "@emotion/react": "^11.9.0",
@@ -59,8 +59,8 @@
     "webpack-dev-server": "^4.9.0"
   },
   "build": {
-    "appId": "com.company.app",
-    "productName": "App Name",
+    "appId": "com.countyfair.auction",
+    "productName": "Delaware County Auction",
     "mac": {
       "category": "public.app-category.video"
     },
