@@ -14,8 +14,10 @@
     "build:run": "npm-run-all build start:electron",
     "build:electron": "webpack --config webpack/electron.webpack.ts --mode=production",
     "build:react": "webpack --config webpack/react.webpack.ts --mode=production",
-    "package": "npm-run-all build package:dist",
-    "package:dist": "electron-builder --dir"
+    "package": "electron-forge package",
+    "package:dist": "electron-builder --dir",
+    "start": "electron-forge start",
+    "make": "electron-forge make"
   },
   "keywords": [],
   "author": "Daniel Dawit",
@@ -28,6 +30,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/socket.io-client": "^3.0.0",
     "@types/websocket": "^1.0.5",
+    "electron-squirrel-startup": "^1.0.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0",
@@ -35,6 +38,11 @@
     "websocket": "^1.0.34"
   },
   "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.65",
+    "@electron-forge/maker-deb": "^6.0.0-beta.65",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.65",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.65",
+    "@electron-forge/maker-zip": "^6.0.0-beta.65",
     "@types/node": "^16.11.33",
     "@types/react": "^18.0.8",
     "@types/react-dom": "^18.0.3",
@@ -43,7 +51,6 @@
     "@typescript-eslint/parser": "^5.22.0",
     "cross-env": "^7.0.3",
     "electron": "^18.2.0",
-    "electron-builder": "^23.0.3",
     "eslint": "^8.14.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-react": "^7.29.4",
@@ -75,5 +82,32 @@
   "engines": {
     "npm": ">=7.0.0",
     "node": ">=16.13.0"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "delaware_county_fair_auction_app"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }
