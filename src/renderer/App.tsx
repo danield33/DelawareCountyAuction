@@ -14,6 +14,7 @@ export default function App(): JSX.Element {
     useEffect(() => {
         fetch(PORT + "/getData", {mode: "cors"}).then(async (res) => {
             const data: any = await res.json();
+            console.log(data)
             db.init(data);
         });
     }, []);

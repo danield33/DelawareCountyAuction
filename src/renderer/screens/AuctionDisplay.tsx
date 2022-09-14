@@ -71,7 +71,12 @@ export default function AuctionDisplay(): JSX.Element {
                         )
                         : orgIDs.length === 1 ?
                             (
-                                <div>
+                                <div style={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    flex: 1,
+                                    height: '100%'
+                                }}>
                                     {renderItem(orgIDs[0], -1)}
                                 </div>
                             )

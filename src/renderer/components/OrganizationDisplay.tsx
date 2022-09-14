@@ -39,7 +39,10 @@ function OrganizationDisplay({organization, height, showDescription}: Organizati
                                 alignItems: 'center',
                                 alignContent: 'center',
                                 lineHeight: '100px',
-                                textAlign: 'center'
+                                textAlign: 'center',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                width: '100%'
                             }}
                             src={image}//?fit=crop&auto=format
                             srcSet={image}//?&fit=crop&auto=format&dpr=2 2x
